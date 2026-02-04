@@ -1,28 +1,15 @@
-using DungeonRPG.Scripts.General;
+using DungeonRPG;
 using Godot;
 using System;
 
 public partial class Player : CharacterBody3D
 {
     [ExportGroup("Required Nodes")]
-    [Export] private AnimationPlayer animPlayerNode;
-    [Export] private Sprite3D spriteNode;
+    [Export] public AnimationPlayer AnimPlayerNode { get; private set;}
+    [Export] public Sprite3D SpriteNode { get; private set;}
+    [Export] public StateMachine StateMachineNode { get; private set;}
 
-    private Vector2 direction = new();
-
-    public override void _Ready()
-    {
-        animPlayerNode.Play(GameConstants.ANIM_IDLE);
-    }
-    public override void _PhysicsProcess(double delta)
-    {
-        Velocity = new(direction.X, 0, direction.Y);
-        Velocity *= 5;
-
-        MoveAndSlide();
-
-        Flip();
-    }
+    public Vector2 direction = new();
 
     public override void _Input(InputEvent @event)
     {
@@ -32,22 +19,13 @@ public partial class Player : CharacterBody3D
             GameConstants.INPUT_MOVE_FORWARD,
             GameConstants.INPUT_MOVE_BACKWARD
         );
-
-        if (direction == Vector2.Zero)
-        {
-            animPlayerNode.Play(GameConstants.ANIM_IDLE);
-        }
-        else
-        {
-            animPlayerNode.Play(GameConstants.ANIM_MOVE);
-        }
     }
 
-    private void Flip()
+    public void Flip()
     {
         if (Velocity.X == 0) return;
 
         bool isMovingLeft = Velocity.X < 0;
-        spriteNode.FlipH = isMovingLeft;
+        SpriteNode.FlipH = isMovingLeft;
     }
 }
