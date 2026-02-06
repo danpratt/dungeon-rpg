@@ -3,35 +3,26 @@ using Godot;
 namespace DungeonRPG
 {
 
-    public abstract partial class PlayerState : Node
+    public abstract partial class PlayerState : CharacterState
     {
-        protected Player characterNode;
-
         public override void _Ready()
         {
-            characterNode = GetOwner<Player>();
-            SetPhysicsProcess(false);
-            SetProcessInput(false);
+            base._Ready();
+            characterNode.GetStatResource(Stat.Health).OnZero += HandleZeroHealth;
         }
 
-        public override void _Notification(int what)
+        protected void CheckForAttackInput()
         {
-            base._Notification(what);
-
-            if (what == GameConstants.NOTIFICATION_ENTER_STATE) // Custom notification for entering state
+            if (Input.IsActionJustPressed(GameConstants.INPUT_ATTACK))
             {
-                EnterState();
-                SetPhysicsProcess(true);
-                SetProcessInput(true);
-            }
-            else if (what == GameConstants.NOTIFICATION_EXIT_STATE) // Custom notification for exiting state
-            {
-                SetPhysicsProcess(false);
-                SetProcessInput(false);
+                characterNode.StateMachineNode.SwitchState<PlayerAttackState>();
             }
         }
 
-        protected virtual void EnterState() { }
+        private void HandleZeroHealth()
+        {
+            characterNode.StateMachineNode.SwitchState<PlayerDeathState>();
+        }
     }
 
 }

@@ -1,0 +1,55 @@
+using System;
+using System.Linq;
+using System.Reflection.Metadata;
+using DungeonRPG;
+using Godot;
+
+public partial class EnemyChaseState : EnemyState
+{
+    [Export] private Timer ChaseTimerNode;
+    private CharacterBody3D target;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        Move();
+    }
+
+    protected override void EnterState()
+    {
+        characterNode.AnimPlayerNode.Play(GameConstants.ANIM_MOVE);
+        target = characterNode.ChaseAreaNode.GetOverlappingBodies().First() as CharacterBody3D;
+
+        ChaseTimerNode.Timeout += HandleChaseTimerTimeout;
+        characterNode.AttackAreaNode.BodyEntered += HandleAttackAreaBodyEntered;
+        characterNode.ChaseAreaNode.BodyExited += HandleChaseAreaBodyExited;
+    }
+
+    protected override void ExitState()
+    {
+        ChaseTimerNode.Timeout -= HandleChaseTimerTimeout;
+        characterNode.AttackAreaNode.BodyEntered -= HandleAttackAreaBodyEntered;
+        characterNode.ChaseAreaNode.BodyExited -= HandleChaseAreaBodyExited;
+    }
+
+    private void HandleChaseTimerTimeout()
+    {
+        UpdateDestination();
+    }
+
+    private void UpdateDestination()
+    {
+        GD.Print("Updating chase destination.");
+        destination = target.GlobalPosition;
+        characterNode.AgentNode.TargetPosition = destination;
+    }
+
+       private void HandleAttackAreaBodyEntered(Node3D body)
+    {
+        characterNode.StateMachineNode.SwitchState<EnemyAttackState>();
+    }
+
+       private void HandleChaseAreaBodyExited(Node3D body)
+    {
+        characterNode.StateMachineNode.SwitchState<EnemyReturnState>();
+    }
+}

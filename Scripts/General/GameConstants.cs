@@ -7,6 +7,8 @@ namespace DungeonRPG
         public const string ANIM_MOVE = "Move";
 
         public const string ANIM_DASH = "Dash";
+        public const string ANIM_ATTACK = "Attack";
+        public const string ANIM_DEATH = "Death";
 
         // Input Action Name Constants
         public const string INPUT_MOVE_LEFT = "MoveLeft";
@@ -14,6 +16,7 @@ namespace DungeonRPG
         public const string INPUT_MOVE_FORWARD = "MoveForward";
         public const string INPUT_MOVE_BACKWARD = "MoveBackward";
         public const string INPUT_DASH = "Dash";
+        public const string INPUT_ATTACK = "Attack";
 
 
         // Notification Constants
