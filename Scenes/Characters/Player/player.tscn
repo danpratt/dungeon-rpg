@@ -1,10 +1,11 @@
-[gd_scene load_steps=96 format=3 uid="uid://d0gm4bdlkqj04"]
+[gd_scene load_steps=95 format=3 uid="uid://d0gm4bdlkqj04"]
 
 [ext_resource type="Texture2D" uid="uid://dwdo62x12wrri" path="res://Assets/Sprites/Characters/Player/Idle Blinking/Idle Blinking_000.png" id="1_46w32"]
 [ext_resource type="Script" uid="uid://c8cytd7ryqici" path="res://Scripts/Characters/Player/Player.cs" id="1_eiaiy"]
+[ext_resource type="Resource" uid="uid://cutbulwf1sdvq" path="res://Resources/player_health_stat.tres" id="2_0lsgw"]
 [ext_resource type="Texture2D" uid="uid://bxa6s8e5pdvds" path="res://Assets/Sprites/Characters/Player/Idle Blinking/Idle Blinking_001.png" id="2_eiaiy"]
-[ext_resource type="Script" uid="uid://di55wuum3erkj" path="res://Scripts/Resources/StatResource.cs" id="2_q6jcb"]
 [ext_resource type="Texture2D" uid="uid://dq2qgjt1x3wij" path="res://Assets/Sprites/Characters/Player/Idle Blinking/Idle Blinking_002.png" id="3_cflke"]
+[ext_resource type="Resource" uid="uid://dk3yqt6jsad14" path="res://Resources/player_strength_stat.tres" id="3_oslfk"]
 [ext_resource type="Texture2D" uid="uid://dcpkmeyb70tsc" path="res://Assets/Sprites/Characters/Player/Idle Blinking/Idle Blinking_003.png" id="4_4yec0"]
 [ext_resource type="Texture2D" uid="uid://db4ptt0lyaqqk" path="res://Assets/Sprites/Characters/Player/Idle Blinking/Idle Blinking_004.png" id="5_me3gr"]
 [ext_resource type="Texture2D" uid="uid://dvd12m4l1tryn" path="res://Assets/Sprites/Characters/Player/Idle Blinking/Idle Blinking_005.png" id="6_2iqoh"]
@@ -83,17 +84,6 @@
 [ext_resource type="Texture2D" uid="uid://xlt1v2r3mrvi" path="res://Assets/Sprites/Characters/Player/Dying/Dying_012.png" id="75_eau25"]
 [ext_resource type="Texture2D" uid="uid://dr7mlsnr0rhdn" path="res://Assets/Sprites/Characters/Player/Dying/Dying_013.png" id="76_rb60l"]
 [ext_resource type="Texture2D" uid="uid://df24cxv7gsom3" path="res://Assets/Sprites/Characters/Player/Dying/Dying_014.png" id="77_wg2mo"]
-
-[sub_resource type="Resource" id="Resource_8bd3e"]
-script = ExtResource("2_q6jcb")
-StatValue = 100
-metadata/_custom_type_script = "uid://di55wuum3erkj"
-
-[sub_resource type="Resource" id="Resource_5qakp"]
-script = ExtResource("2_q6jcb")
-StatType = 1
-StatValue = 3
-metadata/_custom_type_script = "uid://di55wuum3erkj"
 
 [sub_resource type="Animation" id="Animation_n6yol"]
 resource_name = "Idle"
@@ -259,7 +249,7 @@ collision_mask = 5
 floor_max_angle = 1.553343
 floor_snap_length = 0.2
 script = ExtResource("1_eiaiy")
-Stats = Array[Object]([SubResource("Resource_8bd3e"), SubResource("Resource_5qakp")])
+Stats = Array[Object]([ExtResource("2_0lsgw"), ExtResource("3_oslfk")])
 AnimPlayerNode = NodePath("AnimationPlayer")
 SpriteNode = NodePath("Sprite3D")
 StateMachineNode = NodePath("StateMachine")

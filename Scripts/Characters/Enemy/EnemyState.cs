@@ -14,6 +14,12 @@ namespace DungeonRPG
 
         protected Vector3 GetPatrolPointGlobalPosition(int pointIndex)
         {
+            // check that index is in range of patrol points
+            if (pointIndex < 0 || pointIndex >= characterNode.PathNode.Curve.GetPointCount())
+            {
+                GD.PrintErr($"Invalid patrol point index: {pointIndex}");
+                return characterNode.GlobalPosition; // return current position as fallback
+            }
             Vector3 localPosition = characterNode.PathNode.Curve.GetPointPosition(pointIndex);
             Vector3 globalPosition = characterNode.PathNode.GlobalPosition;
             return globalPosition + localPosition;

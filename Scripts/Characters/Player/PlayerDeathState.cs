@@ -13,5 +13,10 @@ public partial class PlayerDeathState : PlayerState
     private void HandleAnimationFinished(StringName animName)
     {
         // (will update later to show game over screen)
+        if (animName == GameConstants.ANIM_DEATH)
+        {
+            GameEvents.RaiseEndGame();
+            characterNode.QueueFree();
+        }
     }
 }

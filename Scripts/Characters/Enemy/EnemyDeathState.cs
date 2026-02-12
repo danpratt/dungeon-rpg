@@ -13,6 +13,9 @@ public partial class EnemyDeathState : EnemyState
     private void HandleAnimationFinished(StringName animName)
     {
         // Remove enemy from scene after death animation finishes
-        characterNode.QueueFree();
+        if (animName == GameConstants.ANIM_DEATH)
+        {
+            characterNode.PathNode.QueueFree();
+        }
     }
 }
