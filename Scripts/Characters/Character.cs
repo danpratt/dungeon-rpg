@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Godot;
 
@@ -22,21 +23,42 @@ namespace DungeonRPG
         [Export] public Area3D AttackAreaNode { get; private set; }
 
         public Vector2 direction = new();
+        private ShaderMaterial shader;
 
         public override void _Ready()
         {
             base._Ready();
+            shader = (ShaderMaterial)SpriteNode.MaterialOverlay;
             HurtboxAreaNode.AreaEntered += HandleHurtboxAreaEntered;
+            SpriteNode.TextureChanged += () => HandleTextureChanged();
+        }
+
+        private void HandleTextureChanged()
+        {
+            shader.SetShaderParameter(
+                "tex",
+                SpriteNode.Texture
+            );
         }
 
         private void HandleHurtboxAreaEntered(Area3D area)
         {
+            if (area is not IHitBox hitbox) { return; }
             StatResource health = GetStatResource(Stat.Health);
+            int damage = hitbox.GetDamage();
+            area.SetDeferred("monitoring", false);
+            health.StatValue -= damage;
 
-            Character player = area.GetOwner<Character>();
-            health.StatValue -= player.GetStatResource(Stat.Strength).StatValue;
-
-            GD.Print($"{Name} was hit! Current health: {health.StatValue}");
+            shader.SetShaderParameter("active", true);
+            Timer timer = new Timer();
+            timer.WaitTime = 0.2f;
+            timer.OneShot = true;
+            timer.Timeout += () => {
+                shader.SetShaderParameter("active", false);
+                timer.QueueFree();
+            };
+            AddChild(timer);
+            timer.Start();
         }
 
         public StatResource GetStatResource(Stat stat)

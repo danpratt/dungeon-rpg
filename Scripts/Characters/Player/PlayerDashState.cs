@@ -4,11 +4,15 @@ using Godot;
 public partial class PlayerDashState : PlayerState
 {
     [Export] private Timer dashTimerNode;
+    [Export] private Timer dashCooldownTimerNode;
     [Export(PropertyHint.Range, "0, 20, 0.1")] private float speed = 10f;
+
+    [Export] private PackedScene bombScene;
     public override void _Ready()
     {
         base._Ready();
         dashTimerNode.Timeout += HandleDashTimerTimeout;
+        CanTransition = () => dashCooldownTimerNode.IsStopped();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -16,6 +20,7 @@ public partial class PlayerDashState : PlayerState
         characterNode.MoveAndSlide();
         characterNode.Flip();
     }
+
 
     protected override void EnterState()
     {
@@ -37,10 +42,15 @@ public partial class PlayerDashState : PlayerState
 
         dashTimerNode.Start();
 
+        // Spawn a bomb at the player's position
+        var bombInstance = bombScene.Instantiate<Bomb>();
+        bombInstance.GlobalPosition = characterNode.GlobalPosition;
+        GetTree().CurrentScene.AddChild(bombInstance);
     }
 
     private void HandleDashTimerTimeout()
     {
+        dashCooldownTimerNode.Start();
         characterNode.StateMachineNode.SwitchState<PlayerIdleState>();
         characterNode.Velocity = Vector3.Zero;
     }

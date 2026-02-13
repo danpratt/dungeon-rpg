@@ -38,7 +38,6 @@ public partial class EnemyChaseState : EnemyState
 
     private void UpdateDestination()
     {
-        GD.Print("Updating chase destination.");
         destination = target.GlobalPosition;
         characterNode.AgentNode.TargetPosition = destination;
     }

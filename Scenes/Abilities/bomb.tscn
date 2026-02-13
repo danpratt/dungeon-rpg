@@ -1,0 +1,177 @@
+[gd_scene load_steps=19 format=3 uid="uid://bwpvdf3eu425v"]
+
+[ext_resource type="Script" uid="uid://csnlwfwbdj3ab" path="res://Scripts/Abilities/Bomb.cs" id="1_3vc3k"]
+[ext_resource type="Texture2D" uid="uid://ddi6n6x6u1elw" path="res://Assets/Sprites/Effects/Explosion/Bomb.png" id="1_av3dy"]
+[ext_resource type="Texture2D" uid="uid://dk6b3r8jm4t4e" path="res://Assets/Sprites/Effects/Explosion/1.png" id="2_v180m"]
+[ext_resource type="Texture2D" uid="uid://rgcigja5npss" path="res://Assets/Sprites/Effects/Explosion/2.png" id="3_3vc3k"]
+[ext_resource type="Texture2D" uid="uid://ky2sih8rudie" path="res://Assets/Sprites/Effects/Explosion/3.png" id="4_dsk7x"]
+[ext_resource type="Texture2D" uid="uid://cnywyr8845p0n" path="res://Assets/Sprites/Effects/Explosion/4.png" id="5_meker"]
+[ext_resource type="Texture2D" uid="uid://dd8y8o5xcv8k3" path="res://Assets/Sprites/Effects/Explosion/5.png" id="6_78b5x"]
+[ext_resource type="Texture2D" uid="uid://brfju5gov800m" path="res://Assets/Sprites/Effects/Explosion/6.png" id="7_2lvd0"]
+[ext_resource type="Texture2D" uid="uid://r83xwdqpdi8m" path="res://Assets/Sprites/Effects/Explosion/7.png" id="8_7l8kj"]
+[ext_resource type="Texture2D" uid="uid://kjglsus8k3kg" path="res://Assets/Sprites/Effects/Explosion/8.png" id="9_s2hlc"]
+[ext_resource type="Texture2D" uid="uid://daah3i6k54rs1" path="res://Assets/Sprites/Effects/Explosion/9.png" id="10_wp1cl"]
+[ext_resource type="Texture2D" uid="uid://dpgswpsq2ib6n" path="res://Assets/Sprites/Effects/Explosion/10.png" id="11_lsc7e"]
+[ext_resource type="Script" uid="uid://u30vrtg070cm" path="res://Scripts/Abilities/AbilityHitbox.cs" id="13_dsk7x"]
+
+[sub_resource type="Animation" id="Animation_lp373"]
+resource_name = "Expand"
+step = 0.041666668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_av3dy")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite3D:pixel_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.33333334, 0.5416667, 0.7083334, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.01, 0.015, 0.007500000000000001, 0.0185, 0.01, 0.02]
+}
+
+[sub_resource type="Animation" id="Animation_wwdr1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite3D:pixel_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.01]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hitbox/CollisionShape3D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hitbox:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_fo6se"]
+resource_name = "Explosion"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite3D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.90000004),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_v180m"), ExtResource("3_3vc3k"), ExtResource("4_dsk7x"), ExtResource("5_meker"), ExtResource("6_78b5x"), ExtResource("7_2lvd0"), ExtResource("8_7l8kj"), ExtResource("9_s2hlc"), ExtResource("10_wp1cl"), ExtResource("11_lsc7e")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite3D:pixel_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.02]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Hitbox/CollisionShape3D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Hitbox:monitoring")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_o7l10"]
+_data = {
+&"Expand": SubResource("Animation_lp373"),
+&"Explosion": SubResource("Animation_fo6se"),
+&"RESET": SubResource("Animation_wwdr1")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_v180m"]
+radius = 4.0
+
+[node name="Bomb" type="Node3D" node_paths=PackedStringArray("animationPlayer")]
+script = ExtResource("1_3vc3k")
+animationPlayer = NodePath("AnimationPlayer")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_o7l10")
+}
+autoplay = "Expand"
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+script = ExtResource("13_dsk7x")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+shape = SubResource("SphereShape3D_v180m")

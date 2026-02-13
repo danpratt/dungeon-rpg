@@ -1,4 +1,4 @@
-[gd_scene load_steps=122 format=3 uid="uid://box4wl3eagbvf"]
+[gd_scene load_steps=126 format=3 uid="uid://box4wl3eagbvf"]
 
 [ext_resource type="Script" uid="uid://c2cjnk7wbgw0i" path="res://Scripts/Characters/Enemy/Enemy.cs" id="1_1215o"]
 [ext_resource type="Texture2D" uid="uid://ivcm5rmh2v2b" path="res://Assets/Sprites/Characters/Enemy Knight/Idle/0_Demons_of_Darkness_Idle_000.png" id="1_flmpx"]
@@ -108,6 +108,8 @@
 [ext_resource type="Script" uid="uid://dy3ams2rru7xw" path="res://Scripts/Characters/Enemy/EnemyChaseState.cs" id="105_vpbt8"]
 [ext_resource type="Script" uid="uid://v7jds2rkc8r3" path="res://Scripts/Characters/Enemy/EnemyAttackState.cs" id="106_15hc4"]
 [ext_resource type="Script" uid="uid://cj2by85rl6x6f" path="res://Scripts/Characters/Enemy/EnemyDeathState.cs" id="108_u4k2w"]
+[ext_resource type="Script" uid="uid://cameywk1ogluv" path="res://Scripts/Characters/AttackHitbox.cs" id="109_kb7ur"]
+[ext_resource type="Script" uid="uid://cf5v4fgu4sbev" path="res://Scripts/Characters/Enemy/EnemyStunState.cs" id="109_p0c8j"]
 
 [sub_resource type="Resource" id="Resource_u4k2w"]
 script = ExtResource("2_dwudo")
@@ -119,6 +121,35 @@ script = ExtResource("2_dwudo")
 StatType = 1
 StatValue = 4
 metadata/_custom_type_script = "uid://di55wuum3erkj"
+
+[sub_resource type="Shader" id="Shader_kb7ur"]
+code = "shader_type spatial;
+render_mode unshaded, cull_disabled;
+
+uniform bool active = false;
+uniform vec4 flash_color: source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform sampler2D tex: source_color;
+
+void fragment ()
+{
+	vec4 color = texture(tex, UV);
+	ALPHA = color.a;
+	
+	if (active == true)
+	{
+		color = flash_color;
+	}
+	
+	ALBEDO = vec3(color.r, color.g, color.b);
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kb7ur"]
+resource_local_to_scene = true
+render_priority = 1
+shader = SubResource("Shader_kb7ur")
+shader_parameter/active = false
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/tex = ExtResource("1_flmpx")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0pqjn"]
 height = 1.5092773
@@ -243,7 +274,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_p565p"]
-resource_name = "TakeHit"
+resource_name = "Stun"
 step = 0.083333336
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -265,7 +296,7 @@ _data = {
 &"Idle": SubResource("Animation_o2vlo"),
 &"Move": SubResource("Animation_g4lmx"),
 &"RESET": SubResource("Animation_t7h63"),
-&"TakeHit": SubResource("Animation_p565p")
+&"Stun": SubResource("Animation_p565p")
 }
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ryjw6"]
@@ -293,7 +324,9 @@ ChaseAreaNode = NodePath("ChaseArea")
 AttackAreaNode = NodePath("AttackArea")
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
+material_overlay = SubResource("ShaderMaterial_kb7ur")
 pixel_size = 0.0025
+alpha_cut = 2
 texture = ExtResource("1_flmpx")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -306,7 +339,7 @@ libraries = {
 
 [node name="StateMachine" parent="." node_paths=PackedStringArray("currentState", "states") instance=ExtResource("100_g7ysa")]
 currentState = NodePath("IdleState")
-states = [NodePath("IdleState"), NodePath("ReturnState"), NodePath("PatrolState"), NodePath("ChaseState"), NodePath("AttackState"), NodePath("DeathState")]
+states = [NodePath("IdleState"), NodePath("ReturnState"), NodePath("PatrolState"), NodePath("ChaseState"), NodePath("AttackState"), NodePath("DeathState"), NodePath("StunState")]
 
 [node name="IdleState" type="Node" parent="StateMachine"]
 script = ExtResource("101_1215o")
@@ -335,6 +368,9 @@ script = ExtResource("106_15hc4")
 [node name="DeathState" type="Node" parent="StateMachine"]
 script = ExtResource("108_u4k2w")
 
+[node name="StunState" type="Node" parent="StateMachine"]
+script = ExtResource("109_p0c8j")
+
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 debug_enabled = true
 
@@ -362,6 +398,7 @@ shape = SubResource("CapsuleShape3D_0pqjn")
 [node name="Hitbox" type="Area3D" parent="."]
 collision_layer = 4
 collision_mask = 0
+script = ExtResource("109_kb7ur")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
 shape = SubResource("BoxShape3D_dwudo")

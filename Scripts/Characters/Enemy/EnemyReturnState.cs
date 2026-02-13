@@ -7,7 +7,6 @@ public partial class EnemyReturnState : EnemyState
     {
         if (characterNode.AgentNode.IsNavigationFinished())
         {
-            GD.Print("Enemy reached destination.");
             characterNode.StateMachineNode.SwitchState<EnemyPatrolState>();
             return;
         }

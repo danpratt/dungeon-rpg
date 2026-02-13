@@ -47,7 +47,6 @@ public partial class EnemyAttackState : EnemyState
 
     private void PerformHit()
     {
-        GD.Print("Enemy performing hit logic");
         characterNode.ToggleHitbox(true);
         characterNode.HitboxAreaNode.GlobalPosition = targetPosition;
     }
